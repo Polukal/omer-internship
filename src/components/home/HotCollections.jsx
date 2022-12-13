@@ -1,9 +1,27 @@
+import axios from "axios";
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import AuthorImage from "../../images/author_thumbnail.jpg";
-import nftImage from "../../images/nftImage.jpg";
+
 
 const HotCollections = () => {
+
+  const [cardData,setCardData] = useState([]); 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await axios.get(
+        'https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections'
+        );
+        setCardData(response.data);
+        console.log(response.data);
+    }
+    fetchData();
+  }, [])
+  
+   
+ //'https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections'
   return (
     <section id="section-collections" className="no-bottom">
       <div className="container">
@@ -14,22 +32,22 @@ const HotCollections = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          {new Array(4).fill(0).map((_, index) => (
-            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
+          {new Array(cardData.length).fill(cardData).map((card,i) => (
+            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={i}>
               <div className="nft_coll">
                 <div className="nft_wrap">
                   <Link to="/item-details">
-                    <img src={nftImage} className="lazy img-fluid" alt="" />
+                    <img src={card.nftImage} className="lazy img-fluid" alt="" />
                   </Link>
                 </div>
                 <div className="nft_coll_pp">
                   <Link to="/author">
-                    <img className="lazy pp-coll" src={AuthorImage} alt="" />
+                    <img className="lazy pp-coll" src={card.authorImage} alt="" />
                   </Link>
                   <i className="fa fa-check"></i>
                 </div>
                 <div className="nft_coll_info">
-                  <Link to="/explore">
+                  <Link  to="/explore">
                     <h4>Pinky Ocean</h4>
                   </Link>
                   <span>ERC-192</span>
