@@ -18,7 +18,7 @@ const HotCollections = () => {
         console.log(response.data);
     }
     fetchData();
-  }, [])
+  }, [cardData])
   
    
  //'https://us-central1-nft-cloud-functions.cloudfunctions.net/hotCollections'
@@ -32,7 +32,7 @@ const HotCollections = () => {
               <div className="small-border bg-color-2"></div>
             </div>
           </div>
-          {new Array(cardData.length).fill(cardData).map((card,i) => (
+          {cardData.map((card,i) => (
             <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={i}>
               <div className="nft_coll">
                 <div className="nft_wrap">
